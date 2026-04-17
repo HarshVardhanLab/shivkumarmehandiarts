@@ -8,6 +8,20 @@ export async function GET(request: NextRequest) {
     const slug = searchParams.get('slug')
     const limit = searchParams.get('limit') || '10'
     
+    // Helper function to parse tags field
+    const parseTags = (tags: any) => {
+      if (typeof tags === 'string') {
+        try {
+          // Try parsing as JSON first
+          return JSON.parse(tags)
+        } catch {
+          // If not JSON, split by comma
+          return tags.split(',').map((t: string) => t.trim())
+        }
+      }
+      return tags
+    }
+    
     if (slug) {
       // Fetch single blog by slug
       const [rows] = await db.query<RowDataPacket[]>(
@@ -25,7 +39,12 @@ export async function GET(request: NextRequest) {
       // Increment view count
       await db.query('UPDATE blogs SET views = views + 1 WHERE slug = ?', [slug])
       
-      return NextResponse.json({ success: true, data: rows[0] })
+      const blog = {
+        ...rows[0],
+        tags: parseTags(rows[0].tags)
+      }
+      
+      return NextResponse.json({ success: true, data: blog })
     } else {
       // Fetch all blogs
       const [rows] = await db.query<RowDataPacket[]>(
@@ -33,7 +52,12 @@ export async function GET(request: NextRequest) {
         [parseInt(limit)]
       )
       
-      return NextResponse.json({ success: true, data: rows })
+      const blogs = rows.map(blog => ({
+        ...blog,
+        tags: parseTags(blog.tags)
+      }))
+      
+      return NextResponse.json({ success: true, data: blogs })
     }
   } catch (error) {
     console.error('Error fetching blogs:', error)
