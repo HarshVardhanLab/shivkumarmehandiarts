@@ -9,13 +9,11 @@ export async function GET(request: NextRequest) {
     const limit = searchParams.get('limit') || '10'
     
     // Helper function to parse tags field
-    const parseTags = (tags: any) => {
+    const parseTags = (tags: unknown) => {
       if (typeof tags === 'string') {
         try {
-          // Try parsing as JSON first
           return JSON.parse(tags)
         } catch {
-          // If not JSON, split by comma
           return tags.split(',').map((t: string) => t.trim())
         }
       }
