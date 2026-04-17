@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -31,7 +31,7 @@ const CATEGORIES: { value: Category; label: string; icon: IconDefinition }[] = [
   { value: 'festival', label: 'Festival', icon: faHeart },
 ]
 
-export default function GalleryPage() {
+function GalleryContent() {
   const searchParams = useSearchParams()
   const categoryParam = searchParams.get('category') as Category | null
   
@@ -393,5 +393,20 @@ export default function GalleryPage() {
         </div>
       )}
     </div>
+  )
+}
+
+export default function GalleryPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-ivory pt-0 lg:pt-20 pb-24 lg:pb-28">
+        <div className="text-center py-20">
+          <div className="inline-block w-12 h-12 border-4 border-primary-container border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-outline mt-4">Loading gallery...</p>
+        </div>
+      </div>
+    }>
+      <GalleryContent />
+    </Suspense>
   )
 }
