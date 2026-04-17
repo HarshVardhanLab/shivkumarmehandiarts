@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { X, ChevronLeft, ChevronRight, Grid3x3, LayoutGrid, Heart } from 'lucide-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faRing, faSpa, faLeaf, faPalette, faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faRing, faSpa, faLeaf, faPalette, faHeart, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 
 type Category = 'all' | 'bridal' | 'arabic' | 'traditional' | 'modern' | 'festival'
 type ViewMode = 'masonry' | 'grid'
@@ -22,7 +22,7 @@ interface GalleryImage {
   display_order: number
 }
 
-const CATEGORIES: { value: Category; label: string; icon: any }[] = [
+const CATEGORIES: { value: Category; label: string; icon: IconDefinition }[] = [
   { value: 'all', label: 'All Designs', icon: faStar },
   { value: 'bridal', label: 'Bridal', icon: faRing },
   { value: 'arabic', label: 'Arabic', icon: faSpa },
@@ -48,6 +48,7 @@ export default function GalleryPage() {
     if (categoryParam && categoryParam !== activeCategory) {
       setActiveCategory(categoryParam)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryParam])
 
   // Fetch images from API

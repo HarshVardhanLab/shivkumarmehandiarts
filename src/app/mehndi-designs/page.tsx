@@ -1,11 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRing, faSpa, faLeaf, faPalette, faHeart, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faRing, faSpa, faLeaf, faPalette, faHeart, faArrowRight, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 
 interface GalleryImage {
   id: number
@@ -19,7 +18,7 @@ interface GalleryImage {
 interface CategoryData {
   name: string
   slug: string
-  icon: any
+  icon: IconDefinition
   color: string
   description: string
   images: GalleryImage[]
@@ -65,6 +64,7 @@ export default function MehndiDesignsPage() {
     }
 
     fetchImages()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
