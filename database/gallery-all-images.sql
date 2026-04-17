@@ -1,6 +1,8 @@
 -- Seed Gallery with All 25 Cloudinary Images
 -- Run this after importing schema.sql
 
+USE shivkuma_allmehandi;
+
 -- Clear existing gallery
 TRUNCATE TABLE gallery;
 

@@ -1,6 +1,10 @@
 -- Mehndi Artist Website Database Schema
 -- Run this in cPanel phpMyAdmin or MySQL client
 
+-- Create and select database
+CREATE DATABASE IF NOT EXISTS shivkuma_allmehandi;
+USE shivkuma_allmehandi;
+
 -- Users table (Admin only)
 CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT,

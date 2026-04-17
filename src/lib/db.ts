@@ -1,5 +1,12 @@
 import mysql from 'mysql2/promise'
 
+// SSL config for AWS RDS
+// On Vercel: rejectUnauthorized: false (no cert file needed)
+// On local: can use cert file via DB_SSL_CA env var
+const sslConfig = process.env.DB_SSL === 'true'
+  ? { ssl: { rejectUnauthorized: false } }
+  : {}
+
 // Create a connection pool
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
@@ -12,10 +19,7 @@ const pool = mysql.createPool({
   queueLimit: 0,
   enableKeepAlive: true,
   keepAliveInitialDelay: 0,
-  // SSL for AWS RDS
-  ...(process.env.DB_SSL === 'true' && {
-    ssl: { rejectUnauthorized: false }
-  }),
+  ...sslConfig,
 })
 
 // Test the connection
