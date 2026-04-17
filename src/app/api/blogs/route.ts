@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import db from '@/lib/db'
 import { RowDataPacket } from 'mysql2'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   try {
-    const searchParams = request.nextUrl.searchParams
+    const { searchParams } = new URL(request.url)
     const slug = searchParams.get('slug')
     const limit = searchParams.get('limit') || '10'
     
